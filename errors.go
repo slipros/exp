@@ -1,4 +1,4 @@
-package experiment
+package exp
 
 import "github.com/pkg/errors"
 
