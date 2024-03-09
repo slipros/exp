@@ -73,7 +73,7 @@ type Type struct {
 // record why the addition is safe, which is to say why the addition
 // does not cause x to advance to the very end of p's allocation
 // and therefore point incorrectly at the next block in memory.
-func addChecked(p unsafe.Pointer, x uintptr, whySafe string) unsafe.Pointer {
+func addChecked(p unsafe.Pointer, x uintptr, _ string) unsafe.Pointer {
 	return unsafe.Pointer(uintptr(p) + x)
 }
 

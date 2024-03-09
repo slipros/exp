@@ -47,9 +47,9 @@ type structType struct {
 }
 
 // Field returns the i'th struct field.
-func (t *structType) Field(i int) (f reflect.StructField, err error) {
+func (t *structType) Field(i int) (f reflect.StructField, exists bool) {
 	if i < 0 || i >= len(t.Fields) {
-		return reflect.StructField{}, ErrFieldIndexOutOfBounds
+		return reflect.StructField{}, false
 	}
 
 	p := &t.Fields[i]
@@ -63,7 +63,20 @@ func (t *structType) Field(i int) (f reflect.StructField, err error) {
 		f.Tag = reflect.StructTag(tag)
 	}
 
-	return
+	return f, true
+}
+
+// FieldByName returns the struct field with the given name
+// and a boolean to indicate if the field was found.
+func (t *structType) FieldByName(name string) (f reflect.StructField, present bool) {
+	for i := range t.Fields {
+		tf := &t.Fields[i]
+		if tf.Name.Name() == name {
+			return t.Field(i)
+		}
+	}
+
+	return reflect.StructField{}, false
 }
 
 //go:nosplit
